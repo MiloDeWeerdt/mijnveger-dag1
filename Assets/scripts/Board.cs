@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Tilemap))]
 public class Board : MonoBehaviour
 {
     public Tilemap tilemap { get; private set; }
+
     public Tile tileUnknown;
     public Tile tileEmpty;
     public Tile tileMine;
@@ -22,10 +24,12 @@ public class Board : MonoBehaviour
     {
         tilemap = GetComponent<Tilemap>();
     }
+
     public void Draw(Cell[,] state)
     {
         int width = state.GetLength(0);
         int height = state.GetLength(1);
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -35,6 +39,7 @@ public class Board : MonoBehaviour
             }
         }
     }
+
     private Tile GetTile(Cell cell)
     {
         if (cell.revealed)
@@ -50,16 +55,18 @@ public class Board : MonoBehaviour
             return tileUnknown;
         }
     }
+
     private Tile GetRevealedTile(Cell cell)
     {
         switch (cell.type)
         {
             case Cell.Type.Empty: return tileEmpty;
-            case Cell.Type.Mine: return tileMine;
+            case Cell.Type.Mine: return cell.exploded ? tileExploded : tileMine;
             case Cell.Type.Number: return GetNumberTile(cell);
-            default:return null;
+            default: return null;
         }
     }
+
     private Tile GetNumberTile(Cell cell)
     {
         switch (cell.number)
