@@ -10,6 +10,7 @@ public class Game : MonoBehaviour
     private Cell[,] state;
     private bool gameover;
 
+
     private void OnValidate()
     {
         mineCount = Mathf.Clamp(mineCount, 0, width * height);
@@ -246,7 +247,7 @@ public class Game : MonoBehaviour
             }
         }
     }
-
+    
     private void CheckWinCondition()
     {
         for (int x = 0; x < width; x++)
